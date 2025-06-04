@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST MBTI</title>
+</head>
+<body>
+    
+<style>
+  :root {
+    --primary-color: #6a11cb;
+    --secondary-color: #2575fc;
+    --bg-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    font-family: var(--font-family);
+    background: var(--bg-gradient);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+  .container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2.5rem 3rem;
+    width: 320px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+  }
+  label {
+    display: block;
+    text-align: left;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    margin-bottom: 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  input[type="text"]:focus, input[type="password"]:focus {
+    outline: none;
+    box-shadow: 0 0 6px 2px var(--secondary-color);
+  }
+  button {
+    background: var(--secondary-color);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 0;
+    width: 100%;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background: var(--primary-color);
+  }
+  .link-container {
+    margin-top: 1rem;
+  }
+  a.test-link {
+    color: #fee140;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  a.test-link:hover {
+    color: #f39c12;
+  }
+  .message {
+    margin-top: 1rem;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Login untuk Mengambil Tes</h1>
+    <form id="loginForm">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" required autocomplete="off" />
+      
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required autocomplete="off" />
+      
+      <button type="submit">Login</button>
+    </form>
+    <div class="link-container">
+      <p>Jika ingin langsung mengambil tes kepribadian, klik di bawah ini:</p>
+      <a class="test-link" href="https://www.16personalities.com/free-personality-test" target="_blank" rel="noopener noreferrer">Ke Tes Introvert/Ekstrovert</a>
+    </div>
+    <div class="message" id="message"></div>
+  </div>
+
+<script>
+  const form = document.getElementById('loginForm');
+  const messageEl = document.getElementById('message');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const username = form.username.value.trim();
+    const password = form.password.value.trim();
+
+    if (username && password) {
+      // Simpan data login ke localStorage sebagai pengganti database
+      let users = JSON.parse(localStorage.getItem('users') || '[]');
+
+      // Cek apakah username sudah ada
+      const exists = users.some(user => user.username === username);
+
+      if (!exists) {
+        users.push({ username, password, loginAt: new Date().toISOString() });
+        localStorage.setItem('users', JSON.stringify(users));
+        messageEl.textContent = 'Login berhasil! Anda sekarang bisa mengambil tes.';
+        messageEl.style.color = '#a0fbcf';
+      } else {
+        messageEl.textContent = 'Username sudah ada. Coba yang lain.';
+        messageEl.style.color = '#f28c8c';
+      }
+
+      // Kosongkan form
+      form.reset();
+    } else {
+      messageEl.textContent = 'Silakan isi username dan password.';
+      messageEl.style.color = '#f28c8c';
+    }
+  });
+</script>
+</body>
+</html>
+
+</body>
+</html>
